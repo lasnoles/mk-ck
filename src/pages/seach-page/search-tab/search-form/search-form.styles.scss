@@ -1,0 +1,14 @@
+.search-form{
+    display: flex;
+    margin: 0 auto;
+    border: dashed 1px;
+    padding: 5% 5% 5% 5%;
+    flex-direction: column;
+}
+
+.operator {
+    text-align: left;
+    width: 100%;
+    margin-left: 10px;
+    text-decoration: underline;
+}
