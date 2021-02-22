@@ -1,5 +1,9 @@
 import React from "react";
-import { Layout, LayoutProperty, LayoutPropertyMap, SearchCriteria} from "../../../../redux/search-page/types/search-types";
+import { Layout, LayoutProperty, LayoutPropertyMap, SearchCriteria, KeyValueMap} from "../../../../redux/search-page/types/search-types";
+import { connect } from 'react-redux';
+import { selectSearchLayout } from '../../../../redux/search-page/layout.selector';
+import { searchEntity } from '../../../../redux/search-page/search-action';
+import { createStructuredSelector} from 'reselect';
 import FormInput from "../../../../component/form-input/form-input.component";
 import CustomButton from "../../../../component/custom-button/custom-button.component";
 import './search-form.styles.scss';
@@ -7,7 +11,9 @@ import './search-form.styles.scss';
 
 interface MyProps {
     properties: LayoutPropertyMap<LayoutProperty>,
-    criteria: SearchCriteria
+    criteria: SearchCriteria,
+    layout: Layout,
+    searchEntity: Function
 }
 
 interface MyState {
@@ -38,15 +44,29 @@ class SearchForm extends React.Component<MyProps, MyState> {
     handleSubmit = async (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
 
-        console.log('the serviceurl is' + 
-            this.buildBackendUrlFromInput('/TBA', this.state.criteriaValues));
+        const url = this.buildBackendUrlFromInput(this.props.layout.loadingUrl, this.state.criteriaValues);
+
+        await fetch(url).then(response=>response.json())
+        .then(data => this.setResultData(data));
     }
 
-    handleChange = (event: React.FormEvent<HTMLElement> )=>{
+    setResultData = (data:Array<KeyValueMap<string>>) => {
+        this.props.layout.resultData=data;
+        this.props.searchEntity(this.props.layout);
+    }
+
+
+    handleChange = async (event: React.FormEvent<HTMLElement> )=>{
         let target:any = event.currentTarget;
         let keyValue = this.state.criteriaValues;
         keyValue[target.name] = target.value;
         this.setState({criteriaValues: keyValue})
+
+        const url = this.buildBackendUrlFromInput(this.props.layout.loadingUrl, this.state.criteriaValues);
+
+        await fetch(url).then(response=>response.json())
+        .then(data => this.setResultData(data));
+
     }
 
     renderForm = (type: string, key:string, otherProps:LayoutProperty) =>{
@@ -88,5 +108,13 @@ class SearchForm extends React.Component<MyProps, MyState> {
     }
 }
 
+const mapStateToProps = createStructuredSelector({
+    layout: selectSearchLayout
+});
 
-export default SearchForm;
+const mapDispatchToProps = (dispatch : any)=> ({
+    searchEntity: (layout:Layout) => dispatch(searchEntity(layout))
+});
+  
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

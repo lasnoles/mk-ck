@@ -17,7 +17,6 @@ export interface LayoutPropertyMap<T> {
 export enum SortTypes {ASC, DES}
 
 export interface LayoutDetails {
-    columns: Array<string>,
     sampleValues?: Array<string>,
     sortedBy: Array<string>,
     sortedType: SortTypes,
@@ -31,9 +30,19 @@ export interface SearchCriteria {
     fields: Array<string>
 }
 
+export interface KeyValueMap<T> {
+    [property: string]: T 
+}
+
 export interface Layout {
     securityRole: string,
     properties: LayoutPropertyMap<LayoutProperty>,
     searchCriterias: Array<SearchCriteria>,
-    details: LayoutDetails
+    details: LayoutDetails,
+    resultData: Array<KeyValueMap<string>>,
+    loadingUrl: string
+}
+
+export enum SearchActionTypes {
+    FILTER_RESULT
 }

@@ -10,7 +10,7 @@ import searchLayoutReducer from './search-page/layout-reducer';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart']
+    whitelist: []
 }
 
 const rootReducer = combineReducers({
