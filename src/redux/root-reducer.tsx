@@ -5,6 +5,8 @@ import {persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import searchLayoutReducer from './search-page/layout-reducer';
+import userReducer from './user/user-reducer'
+import {reducer as oidcReducer} from 'redux-oidc';
 
 
 const persistConfig = {
@@ -15,6 +17,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     layout: searchLayoutReducer,
+    user: userReducer,
+    oidc: oidcReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);

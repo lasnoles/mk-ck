@@ -4,22 +4,24 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector} from 'reselect';
-import { selectSearchLayout } from '../../../redux/search-page/layout.selector';
+import { selectSearchLayout } from '../../../redux/search-page/layout-selector';
 import { Layout, LayoutPropertyMap, LayoutProperty, KeyValueMap} from "../../../redux/search-page/types/search-types";
 import { searchEntity } from '../../../redux/search-page/search-action';
-import { Link } from 'react-router-dom';
+import RouteButton from '../../../component/route-button/route-button.component';
+import { Add } from "@material-ui/icons";
 
 
-interface BrokerListProps {
+interface EntityListProps {
     layout: Layout;
     searchEntity: Function
 }
 
-interface BrokerListState {
+interface EntityListState {
 }
 
-class SearchResult extends Component<BrokerListProps, BrokerListState> {
-    constructor(props: BrokerListProps) {
+class SearchResult extends Component<EntityListProps, EntityListState> {
+
+    constructor(props: EntityListProps) {
         super(props);
 
     }
@@ -34,12 +36,18 @@ class SearchResult extends Component<BrokerListProps, BrokerListState> {
         .then(data => this.setResultData(data));
     }
 
+
     render(){
         let layoutProps:LayoutPropertyMap<LayoutProperty> = this.props.layout.properties;
         
         return (
         <div>
-            <h2>Broker List</h2>
+            <div className='table-label'>{this.props.layout.entityName} List </div>
+           <div className='options'> 
+                <RouteButton url='/entity/creation'> 
+                    <Add/> 
+                </RouteButton>
+           </div>
             <table className="styled-table">
             <thead>
             <tr>
@@ -53,15 +61,17 @@ class SearchResult extends Component<BrokerListProps, BrokerListState> {
             </thead>
             <tbody>
             {
-                this.props.layout.resultData.map ((broker, index) => (
-                    <tr key={'key'+ broker['key']}>
+                this.props.layout.resultData.map ((entity, index) => (
+                    <tr key={'key'+ entity['key']}>
                     { 
                         Object.entries(layoutProps).map(([k,v]) =>
-                        <td key={k+"_"+index}>{broker[k]}</td>
+                        <td key={k+"_"+index}>{entity[k]}</td>
                         )
                     }
                     <td>
-                    <Link to='/creation'>Update</Link>
+                    <RouteButton url={'/entity/view/'+index} > VIEW </RouteButton>
+                    <RouteButton url={'/entity/creation/'+index} > UPDATE </RouteButton>
+                    <RouteButton url={this.props.layout.loadingUrl} method='delete' data={entity} > DELETE </RouteButton>
                     </td>
                     </tr>
                 ))

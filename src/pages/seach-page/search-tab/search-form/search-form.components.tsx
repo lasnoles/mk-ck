@@ -1,10 +1,9 @@
 import React from "react";
 import { Layout, LayoutProperty, LayoutPropertyMap, SearchCriteria, KeyValueMap} from "../../../../redux/search-page/types/search-types";
 import { connect } from 'react-redux';
-import { selectSearchLayout } from '../../../../redux/search-page/layout.selector';
+import { selectSearchLayout } from '../../../../redux/search-page/layout-selector';
 import { searchEntity } from '../../../../redux/search-page/search-action';
 import { createStructuredSelector} from 'reselect';
-import FormInput from "../../../../component/form-input/form-input.component";
 import CustomButton from "../../../../component/custom-button/custom-button.component";
 import './search-form.styles.scss';
 
@@ -73,7 +72,16 @@ class SearchForm extends React.Component<MyProps, MyState> {
         switch(type) {
             case 'string':
                 return (
-                    <FormInput label={otherProps.display} key={key} name={key} v={this.state.criteriaValues[key]} handleChange={this.handleChange}/>
+                    <div className='group'>
+                    <input className='form-input' key={key} name={key} onChange={this.handleChange} />
+                    {
+                        otherProps.display? (
+                            <label className={`${
+                             typeof this.state.criteriaValues[key] !=="undefined" && this.state.criteriaValues[key].length? 'shrink':''} 
+                             form-input-label`}>{otherProps.display}</label>
+                         ):null
+                    }
+                 </div>
                 )
             case 'array':
                 return (

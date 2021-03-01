@@ -6,7 +6,9 @@ export interface OptionValues{
 export interface LayoutProperty {
     type: string,
     len: number,
-    display: string
+    display: string,
+    changable: boolean,
+    isAuditField: boolean,
     optionValues?: Array<OptionValues>
 }
 
@@ -35,6 +37,7 @@ export interface KeyValueMap<T> {
 }
 
 export interface Layout {
+    entityName: string,
     securityRole: string,
     properties: LayoutPropertyMap<LayoutProperty>,
     searchCriterias: Array<SearchCriteria>,
@@ -44,5 +47,5 @@ export interface Layout {
 }
 
 export enum SearchActionTypes {
-    FILTER_RESULT
+    FILTER_RESULT, RESET_LAYOUT
 }

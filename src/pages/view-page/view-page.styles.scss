@@ -1,0 +1,31 @@
+.view-page {
+    display: block;
+    text-align: center;
+}
+.view-groups{
+    margin: auto;
+    display: inline-block;
+    position: relative;
+    width: 80%;
+} 
+
+.view-input {
+    background: none;
+    background-color: white;
+    color: grey;
+    padding: 10px 10px 10px 5px;
+    width: 50%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid gray;
+    margin: 25px 0;
+    font-size: 20px;
+}
+
+.view-input-label {
+    color: black;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    transition: 300ms ease all;
+}

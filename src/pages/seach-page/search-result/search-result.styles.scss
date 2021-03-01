@@ -1,8 +1,12 @@
+.table-label {
+    text-align: center;
+    font-size: 25px;
+}
+
+
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
     width: 100%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
@@ -34,3 +38,12 @@
     font-weight: bold;
     color: #ddd;
 }
+
+.options {
+    display: flex;
+    margin: 0px;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+  

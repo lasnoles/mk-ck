@@ -2,7 +2,7 @@ import './search-tab.styles.scss';
 
 import React from "react";
 import { connect } from 'react-redux';
-import { selectSearchLayout } from '../../../redux/search-page/layout.selector';
+import { selectSearchLayout } from '../../../redux/search-page/layout-selector';
 import { createStructuredSelector} from 'reselect';
 import { Layout } from "../../../redux/search-page/types/search-types";
 import SearchForm from "./search-form/search-form.components";
